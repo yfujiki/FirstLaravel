@@ -16,6 +16,7 @@ class ChirpController extends Controller
     {
         return view('chirps.index', [
             // 'chirps' => Chirp::with('user')->latest()->get(),
+            // 'chirps' => Chirp::latest()->get(),
             'chirps' => Chirp::all()->sortByDesc('updated_at')
         ]);
     }
