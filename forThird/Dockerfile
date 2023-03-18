@@ -15,13 +15,18 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 # Update Apache configuration
-COPY httpd.conf /etc/apache2/conf-enabled/custom.conf
+COPY laravel.conf /etc/apache2/conf-enabled/laravel.conf
+# Comment out unless production
+COPY ssl.conf /etc/apache2/sites-enabled/ssl.conf
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
+
+# Enable mod_ssl
+RUN a2enmod ssl
 
 # Expose port 80, 443
 EXPOSE 80 443
