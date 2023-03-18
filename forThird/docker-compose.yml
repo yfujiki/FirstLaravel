@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=cloud-sql-proxy
+      - DB_PORT=3306
+      - DB_DATABASE=for_third
+      - DB_USERNAME=for_third_user
+      - DB_PASSWORD=forThird
+      # - CLOUD_SQL_CONNECTION_NAME=resourceloadfailure:asia-northeast1:for-third
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - cloud-sql-proxy
+
+  cloud-sql-proxy:
+    image: gcr.io/cloudsql-docker/gce-proxy:1.22.0
+    command: /cloud_sql_proxy -instances=resourceloadfailure:asia-northeast1:for-third=tcp:0.0.0.0:3306 -credential_file=/secrets/cloudsql/key.json
+    volumes:
+      - ./secrets:/secrets
+    ports:
+      - "3306:3306"
