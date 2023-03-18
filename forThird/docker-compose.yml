@@ -11,8 +11,8 @@ services:
       - DB_DATABASE=for_third
       - DB_USERNAME=for_third_user
       - DB_PASSWORD=forThird
-    volumes:
-      - .:/var/www/html
+    # volumes:
+    #   - .:/var/www/html
     ports:
       - "80:80"
     depends_on:
