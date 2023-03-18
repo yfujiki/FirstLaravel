@@ -15,7 +15,6 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 # Update Apache configuration
-COPY laravel.conf /etc/apache2/conf-enabled/laravel.conf
 # Comment out unless production
 COPY ssl.conf /etc/apache2/sites-enabled/ssl.conf
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
