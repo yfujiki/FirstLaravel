@@ -17,7 +17,7 @@ COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # Copy application code into the container
 COPY . /var/www/html
-RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data /var/www/html
 
 # Set Apache document root
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
