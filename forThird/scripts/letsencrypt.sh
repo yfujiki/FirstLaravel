@@ -1,0 +1,1 @@
+sudo certbot certonly --standalone --email fjk89025@gmail.com --agree-tos -d third.yfujiki.com

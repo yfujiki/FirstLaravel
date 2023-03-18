@@ -16,9 +16,9 @@ RUN chown -R www-data:www-data /var/www/html
 
 # Update Apache configuration
 # Comment out unless production
-COPY ssl.conf /etc/apache2/sites-enabled/ssl.conf
-COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY apache-conf/ssl.conf /etc/apache2/sites-enabled/ssl.conf
+COPY apache-conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY apache-conf/000-default.conf /etc/apache2/sites-available/000-default.conf
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 # Enable Apache mod_rewrite
