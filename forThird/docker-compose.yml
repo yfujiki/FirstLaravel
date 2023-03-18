@@ -11,7 +11,6 @@ services:
       - DB_DATABASE=for_third
       - DB_USERNAME=for_third_user
       - DB_PASSWORD=forThird
-      # - CLOUD_SQL_CONNECTION_NAME=resourceloadfailure:asia-northeast1:for-third
     volumes:
       - .:/var/www/html
     ports:

@@ -10,11 +10,14 @@ RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql
 RUN chmod +x cloud_sql_proxy
 RUN mv cloud_sql_proxy /usr/local/bin/
 
-# Copy application code into the container
+# Copy Apache configuration files into the container
 COPY httpd.conf /etc/apache2/httpd.conf
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+# Copy application code into the container
 COPY . /var/www/html
+RUN chown -R www-data:www-data .
 
 # Set Apache document root
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
