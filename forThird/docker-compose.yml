@@ -5,7 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: /usr/sbin/apache2ctl -D FOREGROUND
     volumes:
+      - .:/var/www/html:rw
       - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "80:80"

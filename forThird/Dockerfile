@@ -10,14 +10,10 @@ RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql
 RUN chmod +x cloud_sql_proxy
 RUN mv cloud_sql_proxy /usr/local/bin/
 
-# Copy application code into the container
-COPY . /var/www/html
-RUN chown -R www-data:www-data /var/www/html
-
 # Update Apache configuration
 # Comment out unless production
-COPY apache-conf/ssl.conf /etc/apache2/sites-enabled/ssl.conf
-COPY apache-conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY apache-conf/ssl.conf /etc/apache2/sites-available/default-ssl.conf
+# COPY apache-conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 COPY apache-conf/000-default.conf /etc/apache2/sites-available/000-default.conf
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
@@ -29,6 +25,3 @@ RUN a2enmod ssl
 
 # Expose port 80, 443
 EXPOSE 80 443
-
-# Start Apache
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
