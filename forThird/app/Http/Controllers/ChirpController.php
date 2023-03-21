@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chirp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChirpController extends Controller
 {
@@ -14,6 +15,7 @@ class ChirpController extends Controller
      */
     public function index()
     {
+        Log::info('Hello boy');
         return view('chirps.index', [
             // 'chirps' => Chirp::with('user')->latest()->get(),
             // 'chirps' => Chirp::latest()->get(),
