@@ -27,12 +27,17 @@ class ASSNController extends Controller
                 list($header, $payload, $signature) = explode('.', $value);
                 $header = JWT::jsonDecode(JWT::urlsafeB64Decode($header));
                 $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($payload));;
-                Log::info(var_export($header, true));
-                Log::info(var_export($payload, true));
+                // Log::info(var_export($header, true));
                 $root_cert = Storage::get('AppleWWDRCAG3_public.pem');
-                Log::info($root_cert);
+                // Log::info($root_cert);
 
                 foreach ($payload as $pkey => $pvalue) {
+                    if ($pkey == 'notificationType') {
+                        Log::info("notificationType: " . $pvalue);
+                    }
+                    if ($pkey == 'subtype') {
+                        Log::info("subtype: " . $pvalue);
+                    }
                     if ($pkey == 'data') {
                         foreach ($pvalue as $dkey => $dvalue) {
                             if ($dkey == 'signedTransactionInfo') {
@@ -43,10 +48,10 @@ class ASSNController extends Controller
                                 $tpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($tpayload));;
 
                                 if ($header == $theader) {
-                                    Log::info("Same");
+                                    Log::info("Transaction header is the same");
                                 }
 
-                                Log::info(var_export($theader, true));
+                                // Log::info(var_export($theader, true));
                                 Log::info(var_export($tpayload, true));
                             }
                             if ($dkey == 'signedRenewalInfo') {
@@ -57,10 +62,10 @@ class ASSNController extends Controller
                                 $rpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($rpayload));;
 
                                 if ($header == $rheader) {
-                                    Log::info("Same");
+                                    Log::info("Renewal header is the same");
                                 }
 
-                                Log::info(var_export($rheader, true));
+                                // Log::info(var_export($rheader, true));
                                 Log::info(var_export($rpayload, true));
                             }
                         }
