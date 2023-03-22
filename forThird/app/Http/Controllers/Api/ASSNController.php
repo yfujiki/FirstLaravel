@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Storage;
 
 class ASSNController extends Controller
 {
@@ -16,67 +19,59 @@ class ASSNController extends Controller
      */
     public function notify(Request $request)
     {
-        try {
-            $signedResponses = (array)$request;
-        } finally {
+        $signedResponse = json_decode($request->getContent());
+
+        foreach ($signedResponse as $key => $value) {
+            if ($key == "signedPayload") {
+                // $payload = ASSNController::decode_signed_response($value);
+                list($header, $payload, $signature) = explode('.', $value);
+                $header = JWT::jsonDecode(JWT::urlsafeB64Decode($header));
+                $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($payload));;
+                Log::info(var_export($header, true));
+                Log::info(var_export($payload, true));
+                $root_cert = Storage::get('AppleWWDRCAG3_public.pem');
+                Log::info($root_cert);
+
+                foreach ($payload as $pkey => $pvalue) {
+                    if ($pkey == 'data') {
+                        foreach ($pvalue as $dkey => $dvalue) {
+                            if ($dkey == 'signedTransactionInfo') {
+                                $signedTransactionInfo = $dvalue;
+                                list($theader, $tpayload, $tsignature) = explode('.', $signedTransactionInfo);
+
+                                $theader = JWT::jsonDecode(JWT::urlsafeB64Decode($theader));
+                                $tpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($tpayload));;
+
+                                if ($header == $theader) {
+                                    Log::info("Same");
+                                }
+
+                                Log::info(var_export($theader, true));
+                                Log::info(var_export($tpayload, true));
+                            }
+                            if ($dkey == 'signedRenewalInfo') {
+                                $signedRenewalInfo = $dvalue;
+                                list($rheader, $rpayload, $rsignature) = explode('.', $signedRenewalInfo);
+
+                                $rheader = JWT::jsonDecode(JWT::urlsafeB64Decode($rheader));
+                                $rpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($rpayload));;
+
+                                if ($header == $rheader) {
+                                    Log::info("Same");
+                                }
+
+                                Log::info(var_export($rheader, true));
+                                Log::info(var_export($rpayload, true));
+                            }
+                        }
+                    }
+                }
+
+                // $last_cert_idx = count($header->x5c) - 1;
+                // $last_cert = $header->x5c[$last_cert_idx];
+                // Log::info($last_cert);
+            }
         }
-        for ($i = 0; $i < count($signedResponses); $i++) {
-            $signedResponse = $signedResponses[$i];
-            $payload = ASSNController::decode_signed_response($signedResponse);
-            Log::info($payload);
-            echo $payload;
-        }
-
-        return $request;
-    }
-
-    function decode_signed_response($signed_response)
-    {
-        // Base64 decode the signedResponse
-        $decoded_data = base64_decode($signed_response);
-
-        // Decompress the payload using gzip
-        $decompressed_data = gzdecode($decoded_data);
-
-        // Parse the JSON payload
-        $json_payload = json_decode($decompressed_data, true);
-
-        return $json_payload;
-    }
-
-    function verify_app_store_signature($decoded_payload)
-    {
-        // Load Apple's public key (PEM format) from the extracted file
-        $public_key_pem = file_get_contents("AppleWWDRCAG3_public.pem");
-
-        // Extract the signature from the incoming request headers
-        $signature = "<signature_from_headers_here>";
-
-        // signedResponse and transaction_id from previous steps
-        $signed_response = "<your_signed_response_here>";
-        $transaction_id = $decoded_payload['unified_receipt']['pending_renewal_info'][0]['transaction_id'];
-
-        // Verify the signature
-        $is_verified = ASSNController::verify_app_store_signature_body($signed_response, $transaction_id, $signature, $public_key_pem);
-
-        if ($is_verified) {
-            echo "Signature is valid!\n";
-        } else {
-            echo "Invalid signature!\n";
-        }
-    }
-
-    function verify_app_store_signature_body($signed_response, $transaction_id, $signature, $public_key_pem)
-    {
-        // Decode the signature
-        $decoded_signature = base64_decode($signature);
-
-        // Prepare the payload for verification
-        $payload_to_verify = $signed_response . $transaction_id;
-
-        // Verify the signature
-        $verified = openssl_verify($payload_to_verify, $decoded_signature, $public_key_pem, OPENSSL_ALGO_SHA256);
-
-        return $verified === 1;
+        return "hello";
     }
 }
