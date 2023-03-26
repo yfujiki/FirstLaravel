@@ -38,7 +38,7 @@ class AppleSubscriptionController extends Controller
         if ($status != 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'Status code is {$status}'
+                'message' => 'Status code is ' . $status
             ], 401);
         }
 
