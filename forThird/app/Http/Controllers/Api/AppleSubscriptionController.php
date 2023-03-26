@@ -15,6 +15,7 @@ class AppleSubscriptionController extends Controller
     //   receipt: the receipt data
     public function verifyReceipt(Request $request)
     {
+        Log::info('Request: ' . $request);
         $receipt = $request->receipt;
         Log::info('Receipt: ' . $receipt);
         $password = Env('APPLE_APP_SHARED_SECRET');
