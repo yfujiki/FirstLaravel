@@ -1,0 +1,1 @@
+gcloud compute ssh --zone "asia-northeast1-b" "third"  --project "resourceloadfailure"
