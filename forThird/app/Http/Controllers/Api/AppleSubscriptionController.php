@@ -18,6 +18,8 @@ class AppleSubscriptionController extends Controller
         Log::info('Request: ' . $request);
         $receipt = $request->receipt;
         Log::info('Receipt: ' . $receipt);
+        Log::info('Product_id: ' . $request->product_id);
+        Log::info('User_id: ' . $request->user_id);
         $password = Env('APPLE_APP_SHARED_SECRET');
         Log::info('Password: ' . $password);
         $url = 'https://sandbox.itunes.apple.com/verifyReceipt';
