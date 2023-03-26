@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ASSNController;
+use App\Http\Controllers\Api\AppleSubscriptionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,6 @@ Route::get('/users', [UserController::class, 'index'])
     ->middleware(['auth:sanctum']);
 
 Route::post('/assn', [ASSNController::class, 'notify']);
+
+Route::post('/verifyAppleReceipt', [AppleSubscriptionController::class, 'verifyReceipt'])
+    ->middleware(['auth:sanctum']);
