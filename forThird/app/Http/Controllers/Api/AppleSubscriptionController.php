@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
-use PhpParser\JsonDecoder;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class AppleSubscriptionController extends Controller
 {
@@ -35,6 +34,8 @@ class AppleSubscriptionController extends Controller
 
         // 1. Check the status code
         $status = $body->status;
+        Log::info('Status code is ' . $status);
+
         if ($status != 0) {
             return response()->json([
                 'status' => false,
@@ -46,6 +47,8 @@ class AppleSubscriptionController extends Controller
 
         // 2. Check the product id
         $product_id = $latest_receipt_info->product_id;
+        Log::info($product_id . ' != ' . $request->product_id . ' ?');
+
         if ($product_id != $request->product_id) {
             return response()->json([
                 'status' => false,
@@ -56,6 +59,10 @@ class AppleSubscriptionController extends Controller
         // 3. Check the expiration date
         $expires_date = $latest_receipt_info->expires_date_ms;
         $now = round(microtime(true) * 1000);
+        $ts = Carbon::createFromTimestampMs($expires_date)->toDateTimeString();
+        Log::info('Receipt expires at ' . $ts);
+        Log::info($expires_date . ' < ' . $now . ' ?');
+
         if ($expires_date < $now) {
             return response()->json([
                 'status' => false,
