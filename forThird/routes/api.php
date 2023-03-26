@@ -31,5 +31,5 @@ Route::get('/users', [UserController::class, 'index'])
 
 Route::post('/assn', [ASSNController::class, 'notify']);
 
-Route::post('/verifyAppleReceipt', [AppleSubscriptionController::class, 'verifyReceipt'])
-    ->middleware(['auth:sanctum']);
+Route::post('/verifyAppleReceipt', [AppleSubscriptionController::class, 'verifyReceipt']);
+    // ->middleware(['auth:sanctum']);
