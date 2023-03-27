@@ -28,7 +28,12 @@ class ASSNController extends Controller
         $root_cert = Storage::get('AppleWWDRCAG3_public.pem');
 
         $notificationType = $payload->notificationType;
-        $subtype = $payload->subtype;
+
+        if (isset($payload["subtype"])) {
+            $subtype = $payload->subtype;
+        } else {
+            $subtype = null;
+        }
 
         Log::info("notificationType: " . $notificationType);
         Log::info("subtype: " . $subtype);
