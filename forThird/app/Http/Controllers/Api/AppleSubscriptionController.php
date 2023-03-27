@@ -35,6 +35,8 @@ class AppleSubscriptionController extends Controller
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
+        curl_close($ch);
+
         $body = json_decode($response);
 
         // 1. Check the status code
@@ -77,11 +79,10 @@ class AppleSubscriptionController extends Controller
         }
 
         // 4. Add the original transaction id to the database
-
-        curl_close($ch);
+        Log::info("Will add the original transaction id/current product id to the database");
 
         return response()->json([
-            'status' => true,
+            'current_product_id' => $product_id,
             'message' => 'Receipt verification success'
         ], 200);
     }

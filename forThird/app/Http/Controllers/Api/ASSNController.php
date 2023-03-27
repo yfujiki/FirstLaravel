@@ -60,10 +60,10 @@ class ASSNController extends Controller
         if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'UPGRADE') {
             Log::info("UPGRADE to " . $tpayload->productId);
         }
-        if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'DOWNGRADE') {
-            Log::info("DOWNGRADE to " . $tpayload->productId);
-        }
-        if ($notificationType == 'DID_RENEW') {
+        // if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'DOWNGRADE') {
+        //     Log::info("DOWNGRADE from " . $tpayload->productId);
+        // }
+        if ($notificationType == 'DID_RENEW') { // To monitor downgrading
             Log::info("DID_RENEW for " . $tpayload->productId);
         }
         if ($notificationType == 'EXPIRED') {
