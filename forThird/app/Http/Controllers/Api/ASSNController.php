@@ -69,18 +69,20 @@ class ASSNController extends Controller
         }
 
         // renewal
-        // $signedRenewalInfo = $data->signedRenewalInfo;
-        // list($rheader, $rpayload, $rsignature) = explode('.', $signedRenewalInfo);
+        $signedRenewalInfo = $data->signedRenewalInfo;
+        list($rheader, $rpayload, $rsignature) = explode('.', $signedRenewalInfo);
 
-        // $rheader = JWT::jsonDecode(JWT::urlsafeB64Decode($rheader));
-        // $rpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($rpayload));;
+        $rheader = JWT::jsonDecode(JWT::urlsafeB64Decode($rheader));
+        $rpayload = JWT::jsonDecode(JWT::urlsafeB64Decode($rpayload));;
 
-        // if ($header == $rheader) {
-        //     Log::info("Renewal header is the same");
-        // }
+        if ($header == $rheader) {
+            Log::info("Renewal header is the same");
+        }
 
         // Log::info(var_export($rheader, true));
         // Log::info(var_export($rpayload, true));
+
+        Log::info("Auto renew status for " . $rpayload->productId . ": " . $rpayload->autoRenewStatus);
 
         return response()->json([
             'status' => true,
