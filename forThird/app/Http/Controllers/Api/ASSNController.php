@@ -47,25 +47,25 @@ class ASSNController extends Controller
             Log::info("Transaction header is the same");
         }
 
-        Log::info("Origianl transaction id: " . $tpayload->original_transaction_id);
+        Log::info("Origianl transaction id: " . $tpayload->originalTransactionId);
 
         if ($notificationType == 'SUBSCRIBED') {
-            Log::info("SUBSCRIBED to " . $tpayload->product_id);
+            Log::info("SUBSCRIBED to " . $tpayload->productId);
         }
         if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'UPGRADE') {
-            Log::info("UPGRADE to " . $tpayload->product_id);
+            Log::info("UPGRADE to " . $tpayload->productId);
         }
         if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'DOWNGRADE') {
-            Log::info("DOWNGRADE to " . $tpayload->product_id);
+            Log::info("DOWNGRADE to " . $tpayload->productId);
         }
         if ($notificationType == 'DID_RENEW') {
-            Log::info("DID_RENEW for " . $tpayload->product_id);
+            Log::info("DID_RENEW for " . $tpayload->productId);
         }
         if ($notificationType == 'EXPIRED') {
-            Log::info($tpayload->product_id . " EXPIRED");
+            Log::info($tpayload->productId . " EXPIRED");
         }
         if ($notificationType == 'GRACE_PERIOD_EXPIRED') {
-            Log::info($tpayload->product_id . " GRACE_PERIOD_EXPIRED");
+            Log::info($tpayload->productId . " GRACE_PERIOD_EXPIRED");
         }
 
         // renewal
