@@ -29,14 +29,14 @@ class ASSNController extends Controller
 
         $notificationType = $payload->notificationType;
 
-        if (isset($payload["subtype"])) {
-            $subtype = $payload->subtype;
-        } else {
-            $subtype = null;
-        }
-
+        // if (isset($payload["subtype"])) {
+        //     $subtype = $payload->subtype;
+        // } else {
+        //     $subtype = null;
+        // }
+        Log::info("payload" . var_export($payload, true));
         Log::info("notificationType: " . $notificationType);
-        Log::info("subtype: " . $subtype);
+        // Log::info("subtype: " . $subtype);
 
         $data = $payload->data;
 
@@ -57,12 +57,12 @@ class ASSNController extends Controller
         if ($notificationType == 'SUBSCRIBED') {
             Log::info("SUBSCRIBED to " . $tpayload->productId);
         }
-        if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'UPGRADE') {
-            Log::info("UPGRADE to " . $tpayload->productId);
-        }
-        if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'DOWNGRADE') {
-            Log::info("DOWNGRADE to " . $tpayload->productId);
-        }
+        // if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'UPGRADE') {
+        //     Log::info("UPGRADE to " . $tpayload->productId);
+        // }
+        // if ($notificationType == 'DID_CHANGE_RENEWAL_PREF' && $subtype == 'DOWNGRADE') {
+        //     Log::info("DOWNGRADE to " . $tpayload->productId);
+        // }
         if ($notificationType == 'DID_RENEW') {
             Log::info("DID_RENEW for " . $tpayload->productId);
         }
