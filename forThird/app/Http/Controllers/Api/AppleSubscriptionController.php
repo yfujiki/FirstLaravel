@@ -15,9 +15,9 @@ class AppleSubscriptionController extends Controller
     //   receipt: the receipt data
     public function verifyReceipt(Request $request)
     {
-        Log::info('Request: ' . $request);
+        // Log::info('Request: ' . $request);
         $receipt = $request->receipt;
-        Log::info('Receipt: ' . $receipt);
+        // Log::info('Receipt: ' . $receipt);
         Log::info('Product_id: ' . $request->product_id);
         Log::info('User_id: ' . $request->user_id);
         $password = Env('APPLE_APP_SHARED_SECRET');
@@ -49,6 +49,7 @@ class AppleSubscriptionController extends Controller
         }
 
         $latest_receipt_info = last($body->latest_receipt_info);
+        Log::info('Original transaction id: ' . $latest_receipt_info->original_transaction_id);
 
         // 2. Check the product id
         $product_id = $latest_receipt_info->product_id;
