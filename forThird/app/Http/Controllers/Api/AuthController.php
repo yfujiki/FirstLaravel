@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'forApp' => true
+                'for_app' => true
             ]);
 
             return response()->json([
