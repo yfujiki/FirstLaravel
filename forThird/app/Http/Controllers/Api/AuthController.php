@@ -111,8 +111,6 @@ class AuthController extends Controller
         ];
 
         $token = JWT::encode($payload, $private_key, 'ES256', $keyId, $header);
-        // echo($token);
-        // echo($request->auth_code);
 
         // 2. send auth_code, JWT token, and client_id to Apple
         $url = 'https://appleid.apple.com/auth/token';
@@ -124,7 +122,6 @@ class AuthController extends Controller
             'redirect_uri' => ''
         );
         $data = http_build_query($data);
-        // echo($data);
         $header = array(
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Accept' => 'application/json'
@@ -155,10 +152,7 @@ class AuthController extends Controller
         $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($payload));;
 
         $login = $payload->sub;
-        // echo ($login);
         $user = User::where('login', $login)->where('login_type', 'apple')->first();
-
-        // echo (var_export($user, true));
 
         if (!$user) {
             $user = User::create([
