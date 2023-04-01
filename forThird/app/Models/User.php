@@ -19,10 +19,11 @@ class User extends Authenticatable //implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'login',
         'email',
         'password',
-        'forApp'
+        'login_type',
+        'for_app'
     ];
 
     /**
@@ -40,9 +41,7 @@ class User extends Authenticatable //implements MustVerifyEmail
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $casts = [];
 
     /**
      * Access user chirps

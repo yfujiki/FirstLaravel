@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('login_type', ['email', 'apple'])->default('email');
 
             $table->string('email')->nullable()->change();
+            $table->string('password')->nullable()->change();
             $table->renameColumn('name', 'login');
             $table->dropColumn('email_verified_at');
 
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->dropColumn('login_type');
 
             $table->string('email')->nullable(false)->change();
+            $table->string('password')->nullable(false)->change();
             $table->renameColumn('login', 'name');
             $table->timestamp('email_verified_at')->nullable();
         });

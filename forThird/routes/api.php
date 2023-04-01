@@ -26,6 +26,8 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/auth/register', [AuthController::class, 'register']);
 
+Route::post('/auth/apple_sign_in', [AuthController::class, 'sign_in_with_apple']);
+
 Route::get('/users', [UserController::class, 'index'])
     ->middleware(['auth:sanctum']);
 
