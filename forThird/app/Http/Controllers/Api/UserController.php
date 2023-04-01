@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         return User::query()
-            ->where('forApp', '=', true)
+            ->where('for_app', '=', true)
             ->get();
     }
 }
